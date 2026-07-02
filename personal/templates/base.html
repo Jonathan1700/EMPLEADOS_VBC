@@ -16,10 +16,21 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse justify-content-end" id="navmenu">
-                <ul class="navbar-nav">
+                <ul class="navbar-nav align-items-lg-center">
                     <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
+                    {% if user.is_authenticated %}
                     <li class="nav-item"><a class="nav-link" href="{% url 'cargo_list' %}">Cargos</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'empleado_list' %}">Empleados</a></li>
+                    <li class="nav-item"><span class="nav-link text-secondary">Hola, {{ user.username }}</span></li>
+                    <li class="nav-item">
+                        <form action="{% url 'logout' %}" method="post" class="d-inline">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-outline-light btn-sm ms-lg-2">Cerrar sesión</button>
+                        </form>
+                    </li>
+                    {% else %}
+                    <li class="nav-item"><a class="btn btn-outline-light btn-sm ms-lg-2" href="{% url 'login' %}">Iniciar sesión</a></li>
+                    {% endif %}
                 </ul>
             </div>
         </div>

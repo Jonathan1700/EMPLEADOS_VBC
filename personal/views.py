@@ -1,4 +1,5 @@
 """CRUD de Empleados y Cargos con Vistas Basadas en Clases (VBC)."""
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, ListView, CreateView, UpdateView, DeleteView
 from .models import Cargo, Empleado
@@ -11,13 +12,13 @@ class HomeView(TemplateView):
 
 # ---------- CRUD Cargos ----------
 
-class CargoListView(ListView):
+class CargoListView(LoginRequiredMixin, ListView):
     model = Cargo
     template_name = 'cargo_list.html'
     context_object_name = 'cargos'
 
 
-class CargoCreateView(CreateView):
+class CargoCreateView(LoginRequiredMixin, CreateView):
     model = Cargo
     form_class = CargoForm
     template_name = 'cargo_form.html'
@@ -25,7 +26,7 @@ class CargoCreateView(CreateView):
     extra_context = {'titulo': 'Registrar cargo'}
 
 
-class CargoUpdateView(UpdateView):
+class CargoUpdateView(LoginRequiredMixin, UpdateView):
     model = Cargo
     form_class = CargoForm
     template_name = 'cargo_form.html'
@@ -33,7 +34,7 @@ class CargoUpdateView(UpdateView):
     extra_context = {'titulo': 'Editar cargo'}
 
 
-class CargoDeleteView(DeleteView):
+class CargoDeleteView(LoginRequiredMixin, DeleteView):
     model = Cargo
     template_name = 'cargo_confirm_delete.html'
     success_url = reverse_lazy('cargo_list')
@@ -41,13 +42,13 @@ class CargoDeleteView(DeleteView):
 
 # ---------- CRUD Empleados ----------
 
-class EmpleadoListView(ListView):
+class EmpleadoListView(LoginRequiredMixin, ListView):
     model = Empleado
     template_name = 'empleado_list.html'
     context_object_name = 'empleados'
 
 
-class EmpleadoCreateView(CreateView):
+class EmpleadoCreateView(LoginRequiredMixin, CreateView):
     model = Empleado
     form_class = EmpleadoForm
     template_name = 'empleado_form.html'
@@ -55,7 +56,7 @@ class EmpleadoCreateView(CreateView):
     extra_context = {'titulo': 'Registrar empleado'}
 
 
-class EmpleadoUpdateView(UpdateView):
+class EmpleadoUpdateView(LoginRequiredMixin, UpdateView):
     model = Empleado
     form_class = EmpleadoForm
     template_name = 'empleado_form.html'
@@ -63,7 +64,7 @@ class EmpleadoUpdateView(UpdateView):
     extra_context = {'titulo': 'Editar empleado'}
 
 
-class EmpleadoDeleteView(DeleteView):
+class EmpleadoDeleteView(LoginRequiredMixin, DeleteView):
     model = Empleado
     template_name = 'empleado_confirm_delete.html'
     success_url = reverse_lazy('empleado_list')
